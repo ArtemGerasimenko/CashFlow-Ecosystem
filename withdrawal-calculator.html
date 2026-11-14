@@ -1640,7 +1640,7 @@ button { min-height: 44px; touch-action: manipulation; }
         USD · Доллар США
        </option>
        <option value="RUB">
-        RUB · Рубль
+        RUB · Российский рубль
        </option>
        <option value="UAH">
         UAH · Украинская гривна
@@ -3189,7 +3189,7 @@ renderCascade();
     return map[node.value] || node.options?.[node.selectedIndex]?.textContent?.trim() || node.value;
   };
   function buildCopyText(){
-    const payoutCurrency=label('payoutCurrency',{EUR:'EUR · Евро',USD:'USD · Доллар США',RUB:'RUB · Рубль',UAH:'UAH · Украинская гривна'});
+    const payoutCurrency=label('payoutCurrency',{EUR:'EUR · Евро',USD:'USD · Доллар США',RUB:'RUB · Российский рубль',UAH:'UAH · Украинская гривна'});
     const buyCurrency=label('msBuyCurrency',{EUR:'EUR · Евро',USDT:'USDT · Tether'});
     const market=label('cascadeMarket',{EU:'Европа',ES:'Испания',UK:'Британия',PL:'Польша',CN:'Китай',KG:'Кыргызстан'});
     const flowType=label('cascadeType',{FF:'Fast Flow · полный цикл 30 начислений',SFF:'Super Fast Flow · полный цикл 15 начислений',HYBRID:'Гибрид · FF + SFF'});
