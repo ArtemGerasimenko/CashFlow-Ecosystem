@@ -2845,6 +2845,13 @@ function renderCascade(){
   document.getElementById('cascadeEndDate').textContent=end?cascadeDateFmt(end):'—';
   const result=cascadeSolve(requiredDaily,market,type,accruals);
   const typeName=type==='FF'?'Fast Flow':'Super Fast Flow';
+  // Keep the single-result card heading synchronized with the selected flow type.
+  document.getElementById('cascadeSingleFlowType').textContent=type==='FF'?'FAST FLOW':'SUPER FAST FLOW';
+  document.getElementById('cascadeSingleBadge').textContent=type==='FF'?'FF':'SFF';
+  const singleIcon=document.getElementById('cascadeSingleIcon');
+  singleIcon.textContent=type==='FF'?'⚡':'🚀';
+  singleIcon.classList.toggle('is-sff',type==='SFF');
+  document.getElementById('cascadeSinglePeriod').textContent=type==='FF'?'30 начислений':'15 начислений';
   document.getElementById('cascadeNominalCaption').textContent=`Минимальный номинал ${typeName} по тарифу`;
   document.getElementById('cascadeActualCaption').textContent=
     type==='FF'?'Фактическая выплата за начисление':'Фактическая прибыль за 15 начислений';
@@ -3806,6 +3813,7 @@ html[data-theme="dark"] #cascade-calculator .cascade-secondary-list .cascade-met
 #cascade-calculator .cascade-flow-heading{display:flex;align-items:center;gap:12px;flex-wrap:nowrap;margin:0 0 16px}
 #cascade-calculator .cascade-flow-icon{width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;border-radius:16px;background:linear-gradient(145deg,#24c77d,#078c78);color:#fff;font-size:25px;box-shadow:0 5px 12px rgba(8,145,111,.18)}
 #cascade-calculator .cascade-flow-card-sff .cascade-flow-icon{background:linear-gradient(145deg,#19c6b5,#087c9b)}
+#cascade-calculator .cascade-flow-card-single .cascade-flow-icon.is-sff{background:linear-gradient(145deg,#19c6b5,#087c9b)}
 #cascade-calculator .cascade-flow-title{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
 #cascade-calculator .cascade-flow-title>div{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 #cascade-calculator .cascade-flow-kicker{font-size:.88rem;letter-spacing:.045em;color:#087f68}
