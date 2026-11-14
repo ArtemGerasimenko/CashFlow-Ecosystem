@@ -3192,15 +3192,29 @@ renderCascade();
     const payoutCurrency=label('payoutCurrency',{EUR:'EUR · Евро',USD:'USD · Доллар США',RUB:'RUB · Рубль',UAH:'UAH · Украинская гривна'});
     const buyCurrency=label('msBuyCurrency',{EUR:'EUR · Евро',USDT:'USDT · Tether'});
     const market=label('cascadeMarket',{EU:'Европа',ES:'Испания',UK:'Британия',PL:'Польша',CN:'Китай',KG:'Кыргызстан'});
-    const flowType=label('cascadeType',{FF:'Fast Flow · 30 начислений',SFF:'Super Fast Flow · 15 начислений',HYBRID:'Гибрид · FF + SFF'});
+    const flowType=label('cascadeType',{FF:'Fast Flow · полный цикл 30 начислений',SFF:'Super Fast Flow · полный цикл 15 начислений',HYBRID:'Гибрид · FF + SFF'});
     const accrual=label('cascadeAccruals',{});
     const currencyResults=[...($('msCurrencyResults')?.querySelectorAll('.result')||[])].map(card=>{
       const small=card.querySelector('small')?.textContent?.trim();
       const strong=card.querySelector('strong')?.textContent?.trim();
       return small&&strong ? `${small}: ${strong}` : '';
     }).filter(Boolean);
+    const resultFor = token => currencyResults.find(x=>x.toUpperCase().includes(token.toUpperCase())) || '—';
+    const nonZero = text => {
+      if(!text || text==='—') return false;
+      const n=Number(String(text).replace(/\s/g,'').replace(',','.').replace(/[^0-9.+-]/g,''));
+      return !Number.isFinite(n) || Math.abs(n)>1e-9;
+    };
+    const addIf = (arr, title, id) => { const v=read(id); if(nonZero(v)) arr.push(`${title}: ${v}`); };
     const lines=[
       'РАСЧЁТ ВЫВОДА · CASHFLOW',
+      '',
+      'ИТОГОВАЯ СВОДКА',
+      `К получению: ${read('finalPayout')}`,
+      `К оплате (${buyCurrency}): ${resultFor($('msBuyCurrency')?.value||'EUR')}`, 
+      `Всего ECR для покупки: ${read('msBuyQty')}`,
+      `ECR для продажи на BlackBIT: ${read('msSellQty')}`,
+      `Количество выводов: ${read('summaryWithdrawalCount')}`, 
       '',
       '1. ЖЕЛАЕМАЯ СУММА К ПОЛУЧЕНИЮ',
       `Валюта получения: ${payoutCurrency}`,
@@ -3214,16 +3228,16 @@ renderCascade();
       `ECR для продажи на BlackBIT: ${read('msSellQty')}`,
       `Всего ECR необходимо купить: ${read('msBuyQty')}`,
       `Стоимость покупки до комиссии: ${read('msBuyGross')}`,
-      `Комиссия перевода ECR: ${read('msTransferFee')}`,
+      `Комиссия перевода ECR · 0,5%: ${read('msTransferFee')}`,
       `Комиссия покупки Money Storage · 0,5%: ${read('msBuyFee')}`,
       ...currencyResults,
       '',
       '3. КАСКАД FAST FLOW / SUPER FAST FLOW',
       `Площадка: ${market}`,
       `Тип потока: ${flowType}`,
-      `Общая сумма для покупки ECR за период: ${value('cascadeTarget')}`,
-      `Количество начислений: ${accrual}`,
-      `Дата запуска: ${value('cascadeStart')}`,
+      `Сумма для распределения за период накопления: ${value('cascadeTarget')}`,
+      `Период накопления: ${accrual}`,
+      `Дата запуска: ${value('cascadeStart')}`
     ];
     const hybrid=$('cascadeHybridResults');
     const isHybrid=hybrid && !hybrid.hidden;
@@ -3233,53 +3247,43 @@ renderCascade();
         `Доля суммы Fast Flow: ${read('cascadeFFTarget')}`,
         `Доля суммы Super Fast Flow: ${read('cascadeSFFTarget')}`,
         `Номинал Fast Flow: ${read('cascadeHybridFFNominal')}`,
-        `Сумма FF за выбранный период: ${read('cascadeHybridFFPeriodTotal')}`,
+        `Сумма FF за период накопления: ${read('cascadeHybridFFPeriodTotal')}`,
         `Необходимая выплата FF за начисление: ${read('cascadeHybridFFRequired')}`,
         `Тариф FF: ${read('cascadeHybridFFRate')}`,
         `Фактическая выплата FF за начисление: ${read('cascadeHybridFFPayout')}`,
-        `Прибыль FF за 30 начислений: ${read('cascadeHybridFFProfit')}`,
+        `Прибыль FF за полный цикл · 30 начислений: ${read('cascadeHybridFFProfit')}`,
         `Номинал Super Fast Flow: ${read('cascadeHybridSFFNominal')}`,
         `Тариф SFF: ${read('cascadeHybridSFFRate')}`,
-        `Требуемая подтяжка SFF за 15 начислений: ${read('cascadeHybridSFFRequired')}`,
+        `Требуемая подтяжка SFF за полный цикл · 15 начислений: ${read('cascadeHybridSFFRequired')}`,
         `Фактическая прибыль SFF за полный цикл: ${read('cascadeHybridSFFProfit')}`,
-        `Превышение SFF из-за тарифного порога: ${read('cascadeHybridSFFExcess')}`,
-        `Общий номинал гибридного каскада: ${read('cascadeHybridTotalNominal')}`,
-        `Прибыль FF за полный цикл: ${read('cascadeHybridTotalProfit')}`,
-        `Прибыль SFF за полный цикл: ${read('cascadeHybridGrandTotal')}`
+        `Общий номинал гибридного каскада: ${read('cascadeHybridTotalNominal')}`
       );
+      addIf(lines,'Превышение SFF из-за тарифного порога','cascadeHybridSFFExcess');
     }else{
       lines.push(
-        `Необходимая выплата / прибыль за цикл: ${read('cascadeDailyNeed')}`,
+        `Необходимая выплата за начисление: ${read('cascadeDailyNeed')}`,
         `Минимальный номинал по тарифу: ${read('cascadeNominal')}`,
         `Применённый тариф: ${read('cascadeTariff')}`,
-        `Фактическая выплата / прибыль: ${read('cascadeDailyActual')}`,
-        `Расчётный номинал без минимального порога: ${read('cascadeRawNominal')}`,
-        `Доплата сверх необходимой суммы: ${read('cascadeSurplus')}`,
+        `Фактическая выплата за начисление: ${read('cascadeDailyActual')}`,
         `Прибыль за полный цикл: ${read('cascadeProfit')}`,
-        `Номинал + прибыль за цикл: ${read('cascadeTotal')}`,
-        `Начислений для сбора суммы: ${read('cascadeAccrualCount')}`,
+        `Номинал с прибылью за полный цикл: ${read('cascadeTotal')}`,
         `Дата последнего нужного начисления: ${read('cascadeEndDate')}`
       );
+      addIf(lines,'Доплата сверх необходимой суммы','cascadeSurplus');
     }
     lines.push('',
       '4. BLACKBIT · ПРОДАЖА ECR И ВЫВОД USDT',
       `Цена ECR на BlackBIT: ${value('ecrPrice')} USDT`,
-      `Сумма вывода USDT: ${value('withdrawAmount')} USDT`,
-      `Количество ECR для продажи: ${read('ecrToSell')}`,
+      `Объём сделки до комиссии ордера: ${read('tradeGross')}`,
       `Комиссия продажи BlackBIT · 0,1%: ${read('spotFee')}`,
       `USDT после комиссии ордера: ${read('netProceeds')}`,
-      `Комиссия перевода ECR · 0,5%: ${read('ecrTransferFee')}`,
-      `Всего ECR для продажи и перевода: ${read('ecrRequired')}`,
       `Фиксированная комиссия TRC-20: ${read('networkFixedFee')}`,
       `Процентная комиссия TRC-20 · 1%: ${read('networkPercentFee')}`,
-      `Все комиссии сети: ${read('networkFee')}`,
-      `Баланс USDT до вывода: ${read('requiredBalance')}`,
-      `График разделения вывода: ${read('withdrawalSchedule')}`,
-      `Объём сделки до комиссии ордера: ${read('tradeGross')}`,
+      `Количество транзакций: ${read('withdrawalSchedule')}`,
       `Итог к получению: ${read('finalPayout')}`,
       ''
     );
-    lines.push('', 'Примечание: результат рассчитан по значениям и курсам, введённым в калькулятор.');
+    lines.push('Примечание: результат рассчитан по значениям и курсам, введённым в калькулятор.');
     return lines.join('\n');
   }
   async function copyCalculation(){
