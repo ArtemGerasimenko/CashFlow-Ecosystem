@@ -2694,31 +2694,48 @@ function renderMoneyStorage(requiredECR,sellECR){
   container.innerHTML=rows.join('');
 }
 
-const base={KGS:0.0101995,GBP:1.18996,CNY:0.133748,PLN:0.226683,USDT:0.896401,RUB:0.0104738,EUR:1,UAH:0.0192383};
+const base={KGS:0.010360108533343,GBP:1.1970808901191,CNY:0.135795061368686,PLN:0.226645299923517,USDT:0.910514622864843,RUB:0.0106881669519613,EUR:1,UAH:0.0195129657282296};
 const names={EUR:'Евро',USDT:'Tether',GBP:'Фунт',CNY:'Юань',PLN:'Злотый',KGS:'Сом',RUB:'Рубль',UAH:'Гривна'};
 const currencies=['EUR','USDT','GBP','CNY','PLN','KGS','RUB','UAH'];
 const RATE_STORAGE_KEY='cashflow_money_storage_currency_rates_v1';
+const RATE_SET_VERSION_KEY='cashflow_currency_rates_set_version';
+const RATE_SET_VERSION='2026-11-15';
 const SBER_RATE_STORAGE_KEY='cashflow_sberkassa_rub_usdt_rate_v1';
 const rates={...base};
 try{
   const savedRates=JSON.parse(localStorage.getItem(RATE_STORAGE_KEY)||'{}');
-  const savedSber=Number(localStorage.getItem(SBER_RATE_STORAGE_KEY));
-  for(const c of currencies){
-    const value=Number(savedRates[c]);
-    if(c!=='EUR'&&Number.isFinite(value)&&value>0)rates[c]=value;
-  }
-  // Migration: older builds could mistakenly save the Sberkassa RUB/USDT
-  // rate into UAH's EUR conversion field. Restore the supplied UAH rate.
-  if(Number(savedRates.UAH)>1){
-    rates.UAH=base.UAH;
-    savedRates.UAH=base.UAH;
-    localStorage.setItem(RATE_STORAGE_KEY,JSON.stringify(savedRates));
+  const savedVersion=localStorage.getItem(RATE_SET_VERSION_KEY);
+  if(savedVersion!==RATE_SET_VERSION){
+    // Install the explicitly supplied 15.11.2026 rate set once.
+    localStorage.setItem(RATE_STORAGE_KEY,JSON.stringify(base));
+    localStorage.setItem(RATE_SET_VERSION_KEY,RATE_SET_VERSION);
+    for(const c of currencies)rates[c]=base[c];
+  }else{
+    for(const c of currencies){
+      const value=Number(savedRates[c]);
+      if(c!=='EUR'&&Number.isFinite(value)&&value>0)rates[c]=value;
+    }
+    // EUR is the reference currency in the internal calculation model.
+    rates.EUR=base.EUR;
   }
 }catch(e){}
 const fmt=(n,d=2)=>Number(n).toLocaleString('ru-RU',{minimumFractionDigits:d,maximumFractionDigits:d});
 const num=v=>{const n=Number(String(v??'').trim().replace(/\s/g,'').replace(',','.'));return Number.isFinite(n)?n:0;};
 const el=id=>document.getElementById(id);
-try{const savedSberRate=Number(localStorage.getItem(SBER_RATE_STORAGE_KEY));if(savedSberRate>0)el('sberUsdtRubRate').value=savedSberRate}catch(e){}
+try{
+  const savedSberRate=Number(localStorage.getItem(SBER_RATE_STORAGE_KEY));
+  // The RUB rate in the editable currency table is stored as USDT per 1 RUB.
+  // Keep the payout field (RUB per 1 USDT) synchronized with that saved table value.
+  const tableRubRate=Number(rates.RUB)>0&&Number(rates.USDT)>0
+    ? Number(rates.USDT)/Number(rates.RUB)
+    : 0;
+  if(tableRubRate>0){
+    el('sberUsdtRubRate').value=String(tableRubRate);
+    localStorage.setItem(SBER_RATE_STORAGE_KEY,String(tableRubRate));
+  }else if(savedSberRate>0){
+    el('sberUsdtRubRate').value=String(savedSberRate);
+  }
+}catch(e){}
 function syncBuyCurrencyLabel(){
   const c=el('msBuyCurrency').value;
   el('msEcrPriceLabel').textContent='Текущий курс покупки ECR (1 ECR = '+c+')';
@@ -2795,7 +2812,16 @@ function commitEditedRates(){
     if(c==='USDT'||c==='EUR')continue;
     if(parsed[c]!==undefined)rates[c]=parsed[c]*usdtEur;
   }
-  if(!saveRates()){
+  // RUB has a second representation in the payout calculator:
+  // table = USDT per 1 RUB, payout field = RUB per 1 USDT.
+  const rubPerUsdt = rates.RUB>0 ? rates.USDT/rates.RUB : 0;
+  try{
+    if(rubPerUsdt>0){
+      el('sberUsdtRubRate').value=String(rubPerUsdt);
+      localStorage.setItem(SBER_RATE_STORAGE_KEY,String(rubPerUsdt));
+    }
+    if(!saveRates()) throw new Error('rates storage failed');
+  }catch(e){
     Object.assign(rates,previousRates);
     setRatesSavedStatus('⚠ Не удалось сохранить курсы. Проверь настройки браузера');
     return;
