@@ -570,7 +570,7 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
 <div class="period"><input type="radio" name="period" id="p25" value="25"><label for="p25">25 лет</label></div>
 </div></div>
 <div class="field-grid"><div class="field"><label for="amount">Сумма начального взноса и ежемесячного пополнения</label><div class="inputline"><input id="amount" type="number" min="0.01" step="0.01" value="100"><span class="unit" id="amountUnit">EUR</span></div><p class="hint">Одна и та же фиксированная сумма для взноса и ежемесячного пополнения.</p><p id="minimumDepositHint" role="status" aria-live="polite" hidden style="margin:8px 0 0;color:#d32f2f;font-weight:700;font-size:.92rem"></p></div>
-<div class="field"><label for="ecrRate" id="rateLabel">Курс подтяжки · EUR за 1 ECR</label><div class="inputline"><input id="ecrRate" type="number" min="0.00000001" step="any" value="25" inputmode="none" readonly aria-readonly="true" tabindex="-1" class="fixed-rate-field"><span class="unit" id="rateUnit">EUR / ECR</span></div><p class="hint" id="rateHint">Курс ECR фиксированный, устанавливается автоматически и доступен только для просмотра. Для России используется динамический курс ERUB.</p></div></div>
+<div class="field"><label for="ecrRate" id="rateLabel">Курс подтяжки · EUR за 1 ECR</label><div class="inputline"><input id="ecrRate" type="number" min="0.00000001" step="any" value="25" inputmode="none" readonly aria-readonly="true" tabindex="-1" class="fixed-rate-field"><span class="unit" id="rateUnit">EUR / ECR</span></div><p class="hint" id="rateHint">Курс ECR фиксированный, устанавливается автоматически и доступен только для просмотра. Для России используется фиксированный курс ERUB.</p></div></div>
 
 </section>
 <section class="card" aria-labelledby="resultTitle"><h2 id="resultTitle">📊 Результат расчёта</h2><div class="results">
@@ -588,7 +588,7 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
   <li><b>Выберите площадку.</b> От площадки зависят валюта расчёта, тарифная таблица и курс подтяжки.</li>
   <li><b>Укажите сумму взноса.</b> Введите сумму регулярного пополнения. В течение периода накопления она остаётся фиксированной. Выберите номинал, предусмотренный тарифной таблицей выбранной площадки.</li>
   <li><b>Выберите период.</b> Укажите срок от 3 до 25 лет. Коэффициент подбирается автоматически по сумме взноса и выбранному периоду.</li>
-  <li><b>Проверьте курс подтяжки.</b> Курс ECR или ERUB устанавливается автоматически и доступен только для просмотра. Для России используется ERUB, для остальных площадок — ECR.</li>
+  <li><b>Проверьте курс подтяжки.</b> Курс ECR или ERUB устанавливается автоматически и доступен только для просмотра. Для России используется фиксированный курс ERUB 15,8 RUB, для остальных площадок — фиксированный курс ECR.</li>
   <li><b>Как рассчитывается подтяжка.</b> Подтяжка на один взнос рассчитывается по формуле: (ежемесячная выплата − сумма взноса) ÷ курс подтяжки.</li>
   <li><b>Изучите результат.</b> Проверьте выбранный коэффициент, срок каждого этапа, подтяжку на один взнос, ежемесячную выплату и общую сумму за период выплат. Кнопка «Скопировать расчёт» копирует основные показатели.</li>
  </ol>
@@ -637,10 +637,7 @@ const $=id=>document.getElementById(id),fmt=(n,d=2)=>new Intl.NumberFormat('ru-R
 const rateValues={VIP:'25',EU:'25',ES:'25',UK:'25',PL:'100',CN:'180',KG:'2500'};
 const minimumDeposits={VIP:100,EU:10,ES:10,UK:10,PL:50,CN:100,KG:1000,RU:1000};
 let market=$('market').value||'VIP';
-const BASE_DATE='2026-11-08',BASE_RATE=34,STEP=0.5,TZ='Europe/Moscow';
-const dateKey=()=>new Intl.DateTimeFormat('en-CA',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
-const dayNumber=key=>{const [y,m,d]=key.split('-').map(Number);return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2026,10,8))/86400000)};
-const currentErubRate=()=>BASE_RATE+Math.max(0,dayNumber(dateKey()))*STEP;
+const RUSSIA_ERUB_RATE=15.8;
 const selectedYear=()=>Number(document.querySelector('input[name="period"]:checked').value);
 function activeMarket(){return markets[market]}
 function selectedTariff(amount,year){const rows=activeMarket().rows;if(!Number.isFinite(amount)||amount<minimumDeposits[market])return null;let row=rows[0];for(const candidate of rows){if(amount>=candidate.amount)row=candidate;else break;}return row.values[years.indexOf(year)];}
@@ -649,7 +646,7 @@ function updateMarketUI(resetAmount=false){const c=activeMarket(),isRU=market===
  const flags={VIP:'⭐',EU:'🇪🇺',ES:'🇪🇸',UK:'🇬🇧',PL:'🇵🇱',CN:'🇨🇳',KG:'🇰🇬',RU:'🇷🇺'};document.getElementById('pageTitle').textContent=`Симулятор Накопительного Потока — ${flags[market]||''} ${c.label}`;document.title=`Cumulative Flow — ${c.label}`;
  $('amountUnit').textContent=c.name;$('amount').min=String(minimumDeposits[market]);if(resetAmount)$('amount').value=String(minimumDeposits[market]);$('rateUnit').textContent='';$('rateUnit').hidden=true;$('rateLabel').textContent=`Курс подтяжки · ${c.name} за 1 ${token}`;$('pullupLabel').textContent=`Подтяжка ${token} на один взнос`;
  const rate=$('ecrRate');rate.readOnly=true;rate.setAttribute('aria-readonly','true');
- if(isRU){rate.value=currentErubRate().toFixed(2);$('rateHint').textContent='Курс ERUB растёт на 0,5 RUB каждый день в 00:00 по Москве.'}
+ if(isRU){rate.value=RUSSIA_ERUB_RATE.toFixed(2);$('rateHint').textContent='Фиксированный курс ERUB — 15,8 RUB за 1 ERUB. Не изменяется автоматически.'}
  else {rate.value=rateValues[market];$('rateHint').textContent=`Курс ECR фиксированный — ${rate.value} ${c.name} за 1 ECR. Он устанавливается автоматически и доступен только для просмотра.`}
 
 }

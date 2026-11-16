@@ -759,7 +759,7 @@ html[data-theme="dark"] .tablewrap table tbody tr.active-row td {
 <div class="metric wide"><span id="tokenLabel">Количество подтяжки ECR</span><strong id="outEcr">0,70000000 ECR</strong></div></div>
 <p class="note" id="status" style="margin-top:16px"></p><button id="copy" class="btn" type="button">⧉ Скопировать расчёт</button><p class="copy-feedback" id="copyFeedback" aria-live="polite"></p></section></div>
 <section class="card"><h2>📈 Таблица процентов подтяжки</h2><div class="tablewrap"><table><thead><tr><th>Сумма пополнения — от</th><th>Подтяжка</th></tr></thead><tbody id="tiers"></tbody></table></div></section>
-<section class="card usage-card"><h2>ℹ️ Как пользоваться Growing Flow</h2><ol><li><strong>Выберите площадку.</strong> Валюта и тарифная таблица будут соответствовать выбранному рынку.</li><li><strong>Введите сумму пополнения.</strong> Сумма должна быть не ниже минимального порога выбранной площадки.</li><li><strong>Проверьте валюту.</strong> Валюта устанавливается автоматически и недоступна для ручного изменения.</li><li><strong>Проверьте курс подтяжки.</strong> Для всех площадок, кроме России, курс ECR фиксированный и устанавливается автоматически. В России курс ERUB повышается на 0,5 RUB ежедневно в 00:00 по Москве. Поле доступно только для просмотра.</li><li><strong>Изучите результат.</strong> Калькулятор покажет применённый процент, сумму подтяжки, итоговую сумму и расчётное количество токенов.</li><li><strong>Скопируйте расчёт</strong> кнопкой под результатами.</li></ol><p class="note">Минимальный взнос и тарифная таблица — отдельные параметры. Минимальный взнос определяет только минимально допустимую сумму пополнения; значения и пороги тарифной таблицы не изменяются. Если сумма находится между минимальным взносом и первым порогом таблицы, применяется процент первой строки таблицы. При достижении следующего порога автоматически выбирается соответствующая строка. Значения и пороги тарифной таблицы остаются без изменений. Количество ECR/ERUB рассчитывается как сумма подтяжки, разделённая на курс. Расчёт справочный: он не подтверждает фактические условия площадки и не гарантирует доход или выплату.</p></section>
+<section class="card usage-card"><h2>ℹ️ Как пользоваться Growing Flow</h2><ol><li><strong>Выберите площадку.</strong> Валюта и тарифная таблица будут соответствовать выбранному рынку.</li><li><strong>Введите сумму пополнения.</strong> Сумма должна быть не ниже минимального порога выбранной площадки.</li><li><strong>Проверьте валюту.</strong> Валюта устанавливается автоматически и недоступна для ручного изменения.</li><li><strong>Проверьте курс подтяжки.</strong> Для всех площадок, кроме России, курс ECR фиксированный и устанавливается автоматически. В России установлен фиксированный курс ERUB — 15,8 RUB. Поле доступно только для просмотра.</li><li><strong>Изучите результат.</strong> Калькулятор покажет применённый процент, сумму подтяжки, итоговую сумму и расчётное количество токенов.</li><li><strong>Скопируйте расчёт</strong> кнопкой под результатами.</li></ol><p class="note">Минимальный взнос и тарифная таблица — отдельные параметры. Минимальный взнос определяет только минимально допустимую сумму пополнения; значения и пороги тарифной таблицы не изменяются. Если сумма находится между минимальным взносом и первым порогом таблицы, применяется процент первой строки таблицы. При достижении следующего порога автоматически выбирается соответствующая строка. Значения и пороги тарифной таблицы остаются без изменений. Количество ECR/ERUB рассчитывается как сумма подтяжки, разделённая на курс. Расчёт справочный: он не подтверждает фактические условия площадки и не гарантирует доход или выплату.</p></section>
 </main>
 <script>
 const tiersByMarket = {
@@ -774,17 +774,7 @@ const tiersByMarket = {
 function getTiers(){ return tiersByMarket[document.querySelector('#market').value] || tiersByMarket.ES; }
 const marketNames = {ES:'🇪🇸 Испания',EU:'🇪🇺 Европа',GB:'🇬🇧 Британия',PL:'🇵🇱 Польша',CN:'🇨🇳 Китай',KG:'🇰🇬 Кыргызстан',RU:'🇷🇺 Россия'};
 const marketCurrency = {ES:'EUR',EU:'EUR',GB:'GBP',PL:'PLN',CN:'CNY',KG:'KGS',RU:'RUB'};
-const marketRate = {ES:25,EU:25,GB:25,PL:100,CN:180,KG:2500,RU:34};
-// Российский курс ERUB: 34 RUB на 08.11.2026, затем +0,5 RUB за каждый новый день по Москве.
-function getRussiaErubRate(){
- const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Moscow',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
- const v=Object.fromEntries(parts.map(p=>[p.type,p.value]));
- const today=`${v.year}-${v.month}-${v.day}`;
- const start=Date.UTC(2026,10,8);
- const current=Date.UTC(Number(v.year),Number(v.month)-1,Number(v.day));
- const days=Math.max(0,Math.floor((current-start)/86400000));
- return 34+days*0.5;
-}
+const marketRate = {ES:25,EU:25,GB:25,PL:100,CN:180,KG:2500,RU:15.8};
 const minDepositByMarket = {ES:1,EU:1,GB:1,PL:1,CN:1,KG:100,RU:100};
 function getMinThreshold(market=document.querySelector('#market').value){ return minDepositByMarket[market] ?? 1; }
 const fmt=(n,d=2)=>Number.isFinite(n)?n.toLocaleString('ru-RU',{minimumFractionDigits:d,maximumFractionDigits:d}):'—';
@@ -797,7 +787,7 @@ function render(){
  rateInput.readOnly=true; rateInput.setAttribute('readonly',''); rateInput.setAttribute('aria-readonly','true'); rateInput.setAttribute('inputmode','none');
  currencyInput.readOnly=true; currencyInput.setAttribute('readonly',''); currencyInput.setAttribute('aria-readonly','true');
  currencyInput.value=marketCurrency[market]||'EUR';
- rateInput.value=String(isRussia?getRussiaErubRate():(marketRate[market]||250));
+ rateInput.value=String(marketRate[market]||250);
  const amountRaw=document.querySelector('#amount').value;
  const amount=amountRaw===''?NaN:Number(amountRaw);
  const currency=(document.querySelector('#currency').value.trim()||marketCurrency[market]||'валюта').toUpperCase();
@@ -810,7 +800,7 @@ function render(){
  const minWarning=document.querySelector('#minWarning');
  minWarning.textContent=belowMinimum?`Минимальный взнос от ${fmt(minThreshold,0)} ${currency}.`:'';
  minWarning.hidden=!belowMinimum;
- document.querySelector('#thresholdHint').textContent=isRussia?`Курс ERUB — ${fmt(rate,2)} RUB за 1 ERUB. Он обновляется автоматически ежедневно в 00:00 по Москве.`:`Курс ECR фиксированный — ${fmt(rate,0)} ${currency} за 1 ECR. Он устанавливается автоматически и доступен только для просмотра.`;
+ document.querySelector('#thresholdHint').textContent=isRussia?`Фиксированный курс ERUB — ${fmt(rate,1)} RUB за 1 ERUB. Не изменяется автоматически.`:`Курс ECR фиксированный — ${fmt(rate,0)} ${currency} за 1 ECR. Он устанавливается автоматически и доступен только для просмотра.`;
  const token=market==='RU'?'ERUB':'ECR';
  document.querySelector('#tokenLabel').textContent=`Количество подтяжки ${token}`;
  document.querySelector('#rateLabel').textContent=isRussia?'Курс подтяжки · RUB за 1 ERUB':`Курс подтяжки · ${currency} за 1 ECR`;
@@ -831,7 +821,7 @@ document.querySelector('#market').addEventListener('change',()=>{
  const market=document.querySelector('#market').value;
  const currency=marketCurrency[market]||'EUR';
  document.querySelector('#currency').value=currency;
- document.querySelector('#rate').value=String(market==='RU'?getRussiaErubRate():(marketRate[market]||250));
+ document.querySelector('#rate').value=String(marketRate[market]||250);
  const amountInput=document.querySelector('#amount');
  const minThreshold=getMinThreshold(market);
  amountInput.min=String(minThreshold);

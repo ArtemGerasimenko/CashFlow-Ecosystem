@@ -1766,7 +1766,7 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
       <ol>
         <li><strong>Выберите площадку.</strong> Симулятор автоматически подставит её валюту и таблицу коэффициентов.</li>
         <li><strong>Выберите номинал.</strong> Доступны фиксированные суммы из списка.</li>
-        <li><strong>Проверьте курс подтяжки.</strong> Для всех площадок, кроме России, курс ECR фиксированный и устанавливается автоматически. В России курс ERUB увеличивается на 0,5 RUB каждый день в 00:00 по московскому времени. Поле доступно только для просмотра.</li>
+        <li><strong>Проверьте курс подтяжки.</strong> Для всех площадок, кроме России, курс ECR фиксированный и устанавливается автоматически. В России установлен фиксированный курс ERUB — 15,8 RUB. Поле доступно только для просмотра.</li>
         <li><strong>Посмотрите результат.</strong> Ниже отображаются коэффициент, сумма после подтяжки, количество токенов и расчётная еженедельная выплата.</li>
         <li><strong>Скопируйте расчёт</strong> кнопкой «Скопировать расчёт», если нужно сохранить или отправить результат.</li>
       </ol>
@@ -1814,7 +1814,7 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
       PL:  { currency: 'PLN',  rate: '100', amount: 4000 },
       CN:  { currency: 'CNY',  rate: '180', amount: 8000 },
       KG:  { currency: 'KGS',  rate: '2500', amount: 100000 },
-      RU:  { currency: 'RUB',  rate: '34', amount: 100000 }
+      RU:  { currency: 'RUB',  rate: '15.8', amount: 100000 }
     };
 
     const $ = (selector) => document.querySelector(selector);
@@ -1834,18 +1834,6 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
       return (defaultSettings[getMarket()] || defaultSettings.EU).currency;
     }
 
-    // ERUB: базовый курс 34 RUB на 08.11.2026 (МСК), далее +0.5 RUB
-    // за каждый новый календарный день по часовому поясу Europe/Moscow.
-    function getDynamicErubRate() {
-      const parts = new Intl.DateTimeFormat('en-CA', {
-        timeZone: 'Europe/Moscow', year: 'numeric', month: '2-digit', day: '2-digit'
-      }).formatToParts(new Date());
-      const dateParts = Object.fromEntries(parts.map(part => [part.type, part.value]));
-      const todayUtc = Date.UTC(Number(dateParts.year), Number(dateParts.month) - 1, Number(dateParts.day));
-      const startUtc = Date.UTC(2026, 10, 8);
-      const elapsedDays = Math.max(0, Math.floor((todayUtc - startUtc) / 86400000));
-      return 34 + elapsedDays * 0.5;
-    }
 
     function getToken() {
       return getMarket() === 'RU' ? 'ERUB' : 'ECR';
@@ -1915,7 +1903,7 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
       setText('#tokenColumnHeading', `Количество ${token} по выбранному курсу`);
       setText('#rateLabel', `Курс подтяжки · ${currency} за 1 ${token}`);
       setText('#rateHelp', market === 'RU'
-        ? 'Курс ERUB растёт на 0,5 RUB каждый день в 00:00 по Москве.'
+        ? 'Фиксированный курс ERUB — 15,8 RUB за 1 ERUB. Не изменяется автоматически.'
         : `Курс ECR фиксированный — ${defaultSettings[market].rate} ${currency} за 1 ECR. Он устанавливается автоматически и доступен только для просмотра.`);
 
       setText('#outAmount', amount > 0 && Number.isFinite(amount) ? `${fmt(amount)} ${currency}` : '—');
@@ -1991,7 +1979,7 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
       const market = getMarket();
       const settings = defaultSettings[market] || defaultSettings.EU;
       const isRussia = market === 'RU';
-      $('#rate').value = isRussia ? String(getDynamicErubRate()) : settings.rate;
+      $('#rate').value = settings.rate;
       $('#rate').readOnly = true;
       $('#rate').setAttribute('readonly', '');
       $('#rate').setAttribute('inputmode', 'none');
@@ -2000,7 +1988,7 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
         ? 'Автоматический курс ERUB в российских рублях'
         : 'Курс токена в валюте выбранной площадки');
       $('#rateHelp').textContent = isRussia
-        ? 'Курс ERUB растёт на 0,5 RUB каждый день в 00:00 по Москве.'
+        ? 'Фиксированный курс ERUB — 15,8 RUB за 1 ERUB. Не изменяется автоматически.'
         : `Курс ECR фиксированный — ${settings.rate} ${settings.currency} за 1 ECR. Он устанавливается автоматически и недоступен для ручного изменения.`;
       if (resetAmount) populateAmounts(settings.amount);
       render();
@@ -2012,17 +2000,6 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
     populateAmounts();
     syncMarketSettings(false);
 
-    // Обновляем курс и результат, даже если страница остаётся открытой в полночь по Москве.
-    let lastErubRate = getDynamicErubRate();
-    window.setInterval(() => {
-      if (getMarket() !== 'RU') return;
-      const currentRate = getDynamicErubRate();
-      if (currentRate !== lastErubRate) {
-        lastErubRate = currentRate;
-        $('#rate').value = String(currentRate);
-        render();
-      }
-    }, 60000);
   </script>
 
 <script>
