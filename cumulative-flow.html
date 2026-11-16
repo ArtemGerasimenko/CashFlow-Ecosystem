@@ -570,7 +570,7 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
 <div class="period"><input type="radio" name="period" id="p25" value="25"><label for="p25">25 лет</label></div>
 </div></div>
 <div class="field-grid"><div class="field"><label for="amount">Сумма начального взноса и ежемесячного пополнения</label><div class="inputline"><input id="amount" type="number" min="0.01" step="0.01" value="100"><span class="unit" id="amountUnit">EUR</span></div><p class="hint">Одна и та же фиксированная сумма для взноса и ежемесячного пополнения.</p><p id="minimumDepositHint" role="status" aria-live="polite" hidden style="margin:8px 0 0;color:#d32f2f;font-weight:700;font-size:.92rem"></p></div>
-<div class="field"><label for="ecrRate" id="rateLabel">Курс подтяжки · EUR за 1 ECR</label><div class="inputline"><input id="ecrRate" type="number" min="0.00000001" step="any" value="25" inputmode="none" readonly aria-readonly="true" tabindex="-1" class="fixed-rate-field"><span class="unit" id="rateUnit">EUR / ECR</span></div><p class="hint" id="rateHint">Курс ECR фиксированный, устанавливается автоматически и доступен только для просмотра. Для России используется фиксированный курс ERUB.</p></div></div>
+<div class="field"><label for="ecrRate" id="rateLabel">Курс подтяжки · EUR за 1 ECR</label><div class="inputline"><input id="ecrRate" type="number" min="0.00000001" step="any" value="25" inputmode="none" readonly aria-readonly="true" class="fixed-rate-field"><span class="unit" id="rateUnit">EUR / ECR</span></div><p class="hint" id="rateHint">Курс ECR фиксированный, устанавливается автоматически и доступен только для просмотра. Для России курс ERUB вводится вручную.</p></div></div>
 
 </section>
 <section class="card" aria-labelledby="resultTitle"><h2 id="resultTitle">📊 Результат расчёта</h2><div class="results">
@@ -580,7 +580,7 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
 <div class="metric total wide"><span>Всего будет получено за весь период выплат</span><strong id="total">1 800,00 EUR</strong></div>
 </div><p class="notice"><strong>Внимание!</strong> При несвоевременном пополнении итоговая сумма вознаграждения может быть уменьшена, а начало периода выплат может быть отложено на количество пропущенных дней. Своевременно уточняйте условия программы.</p>
 <button id="copy" class="btn" type="button">⧉ Скопировать расчёт</button><p class="copy-feedback" id="feedback" aria-live="polite"></p></section>
-<section class="card" aria-labelledby="tariffTitle"><h2 id="tariffTitle">📈 Таблица коэффициентов Cumulative Flow</h2><p class="intro">Коэффициенты зависят от суммы взноса и выбранного периода накопления.</p><div class="table-wrap"><table><thead><tr><th>Взнос</th><th>3 года</th><th>5 лет</th><th>7 лет</th><th>10 лет</th><th>15 лет</th><th>20 лет</th><th>25 лет</th></tr></thead><tbody id="tariffBody"></tbody></table></div><p class="foot">Тарифные коэффициенты перенесены из предоставленной таблицы. Расчёт использует коэффициент, соответствующий выбранной сумме и периоду, а также автоматически установленный курс подтяжки ECR или ERUB.</p></section>
+<section class="card" aria-labelledby="tariffTitle"><h2 id="tariffTitle">📈 Таблица коэффициентов Cumulative Flow</h2><p class="intro">Коэффициенты зависят от суммы взноса и выбранного периода накопления.</p><div class="table-wrap"><table><thead><tr><th>Взнос</th><th>3 года</th><th>5 лет</th><th>7 лет</th><th>10 лет</th><th>15 лет</th><th>20 лет</th><th>25 лет</th></tr></thead><tbody id="tariffBody"></tbody></table></div><p class="foot">Тарифные коэффициенты перенесены из предоставленной таблицы. Расчёт использует коэффициент, соответствующий выбранной сумме и периоду, а также курс подтяжки ECR или ERUB (для России вводится вручную).</p></section>
 
 <section class="card" id="usage" aria-labelledby="usageHeading">
  <h2 id="usageHeading">ℹ️ Как пользоваться Cumulative Flow</h2>
@@ -588,11 +588,11 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
   <li><b>Выберите площадку.</b> От площадки зависят валюта расчёта, тарифная таблица и курс подтяжки.</li>
   <li><b>Укажите сумму взноса.</b> Введите сумму регулярного пополнения. В течение периода накопления она остаётся фиксированной. Выберите номинал, предусмотренный тарифной таблицей выбранной площадки.</li>
   <li><b>Выберите период.</b> Укажите срок от 3 до 25 лет. Коэффициент подбирается автоматически по сумме взноса и выбранному периоду.</li>
-  <li><b>Проверьте курс подтяжки.</b> Курс ECR или ERUB устанавливается автоматически и доступен только для просмотра. Для России используется фиксированный курс ERUB 15,8 RUB, для остальных площадок — фиксированный курс ECR.</li>
+  <li><b>Проверьте курс подтяжки.</b> Для России введите актуальный курс ERUB вручную. На остальных площадках курс ECR устанавливается автоматически.</li>
   <li><b>Как рассчитывается подтяжка.</b> Подтяжка на один взнос рассчитывается по формуле: (ежемесячная выплата − сумма взноса) ÷ курс подтяжки.</li>
   <li><b>Изучите результат.</b> Проверьте выбранный коэффициент, срок каждого этапа, подтяжку на один взнос, ежемесячную выплату и общую сумму за период выплат. Кнопка «Скопировать расчёт» копирует основные показатели.</li>
  </ol>
-<p class="note"><strong>Важно.</strong> Расчёт носит справочный характер и основан на тарифных коэффициентах выбранной площадки и автоматически установленном курсе подтяжки ECR или ERUB.</p></section>
+<p class="note"><strong>Важно.</strong> Расчёт носит справочный характер и основан на тарифных коэффициентах выбранной площадки и курсе подтяжки ECR или ERUB (для России — ручной ввод).</p></section>
 
 </main>
 
@@ -637,7 +637,6 @@ const $=id=>document.getElementById(id),fmt=(n,d=2)=>new Intl.NumberFormat('ru-R
 const rateValues={VIP:'25',EU:'25',ES:'25',UK:'25',PL:'100',CN:'180',KG:'2500'};
 const minimumDeposits={VIP:100,EU:10,ES:10,UK:10,PL:50,CN:100,KG:1000,RU:1000};
 let market=$('market').value||'VIP';
-const RUSSIA_ERUB_RATE=15.8;
 const selectedYear=()=>Number(document.querySelector('input[name="period"]:checked').value);
 function activeMarket(){return markets[market]}
 function selectedTariff(amount,year){const rows=activeMarket().rows;if(!Number.isFinite(amount)||amount<minimumDeposits[market])return null;let row=rows[0];for(const candidate of rows){if(amount>=candidate.amount)row=candidate;else break;}return row.values[years.indexOf(year)];}
@@ -645,9 +644,9 @@ function selectedTariffRow(amount){const rows=activeMarket().rows;if(!Number.isF
 function updateMarketUI(resetAmount=false){const c=activeMarket(),isRU=market==='RU',token=isRU?'ERUB':'ECR';
  const flags={VIP:'⭐',EU:'🇪🇺',ES:'🇪🇸',UK:'🇬🇧',PL:'🇵🇱',CN:'🇨🇳',KG:'🇰🇬',RU:'🇷🇺'};document.getElementById('pageTitle').textContent=`Симулятор Накопительного Потока — ${flags[market]||''} ${c.label}`;document.title=`Cumulative Flow — ${c.label}`;
  $('amountUnit').textContent=c.name;$('amount').min=String(minimumDeposits[market]);if(resetAmount)$('amount').value=String(minimumDeposits[market]);$('rateUnit').textContent='';$('rateUnit').hidden=true;$('rateLabel').textContent=`Курс подтяжки · ${c.name} за 1 ${token}`;$('pullupLabel').textContent=`Подтяжка ${token} на один взнос`;
- const rate=$('ecrRate');rate.readOnly=true;rate.setAttribute('aria-readonly','true');
- if(isRU){rate.value=RUSSIA_ERUB_RATE.toFixed(2);$('rateHint').textContent='Фиксированный курс ERUB — 15,8 RUB за 1 ERUB. Не изменяется автоматически.'}
- else {rate.value=rateValues[market];$('rateHint').textContent=`Курс ECR фиксированный — ${rate.value} ${c.name} за 1 ECR. Он устанавливается автоматически и доступен только для просмотра.`}
+ const rate=$('ecrRate');
+ if(isRU){rate.readOnly=false;rate.removeAttribute('readonly');rate.removeAttribute('aria-readonly');rate.removeAttribute('inputmode');rate.value='';$('rateHint').textContent='Введите актуальный курс ERUB вручную перед расчётом.'}
+ else {rate.readOnly=true;rate.setAttribute('readonly','');rate.setAttribute('aria-readonly','true');rate.setAttribute('inputmode','none');rate.value=rateValues[market];$('rateHint').textContent=`Курс ECR фиксированный — ${rate.value} ${c.name} за 1 ECR. Он устанавливается автоматически и доступен только для просмотра.`}
 
 }
 function render(){const c=activeMarket(),amount=Number($('amount').value),rate=Number($('ecrRate').value),year=selectedYear(),months=year*12,token=market==='RU'?'ERUB':'ECR';
@@ -662,7 +661,7 @@ function renderTable(){const y=selectedYear(),c=activeMarket();$('tariffTitle').
  const activeRow=selectedTariffRow(Number($('amount').value));const selectedIndex=years.indexOf(y);const activeRowIndex=c.rows.indexOf(activeRow);const headers=$('tariffBody').closest('table').querySelectorAll('thead th');headers.forEach((th,i)=>th.classList.toggle('selected-column',i===selectedIndex+1));$('tariffBody').innerHTML=c.rows.map((row,rowIndex)=>{const rowActive=row===activeRow;return `<tr class="${rowActive?'active-row':''}"><td class="${rowActive?'row-highlight-cell':''}">${row.amount.toLocaleString('ru-RU')} ${c.name}</td>${row.values.map((v,i)=>{const inHorizontal=rowActive&&i<=selectedIndex;const inVertical=i===selectedIndex&&rowIndex<=activeRowIndex;return `<td class="${inHorizontal?'row-highlight-cell':''} ${inVertical?'column-highlight-cell':''} ${inHorizontal&&inVertical?'intersection-highlight-cell':''}">×${String(v).replace('.',',')}</td>`}).join('')}</tr>`}).join('');}
 function update(){render();renderTable();}
 $('market').addEventListener('change',()=>{market=$('market').value;updateMarketUI(true);update();});
-$('amount').addEventListener('input',update);document.querySelectorAll('input[name="period"]').forEach(el=>el.addEventListener('change',update));
+$('amount').addEventListener('input',update);$('ecrRate').addEventListener('input',update);document.querySelectorAll('input[name="period"]').forEach(el=>el.addEventListener('change',update));
 function buildCopyText(){
  const c=activeMarket(),token=market==='RU'?'ERUB':'ECR';
  return [

@@ -1766,7 +1766,7 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
       <ol>
         <li><strong>Выберите площадку.</strong> Симулятор автоматически подставит её валюту и таблицу коэффициентов.</li>
         <li><strong>Выберите номинал.</strong> Доступны фиксированные суммы из списка.</li>
-        <li><strong>Проверьте курс подтяжки.</strong> Для всех площадок, кроме России, курс ECR фиксированный и устанавливается автоматически. В России установлен фиксированный курс ERUB — 15,8 RUB. Поле доступно только для просмотра.</li>
+        <li><strong>Проверьте курс подтяжки.</strong> Для всех площадок, кроме России, курс ECR фиксированный и устанавливается автоматически. В России введите актуальный курс ERUB вручную перед расчётом.</li>
         <li><strong>Посмотрите результат.</strong> Ниже отображаются коэффициент, сумма после подтяжки, количество токенов и расчётная еженедельная выплата.</li>
         <li><strong>Скопируйте расчёт</strong> кнопкой «Скопировать расчёт», если нужно сохранить или отправить результат.</li>
       </ol>
@@ -1814,7 +1814,7 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
       PL:  { currency: 'PLN',  rate: '100', amount: 4000 },
       CN:  { currency: 'CNY',  rate: '180', amount: 8000 },
       KG:  { currency: 'KGS',  rate: '2500', amount: 100000 },
-      RU:  { currency: 'RUB',  rate: '15.8', amount: 100000 }
+      RU:  { currency: 'RUB',  rate: '', amount: 100000 }
     };
 
     const $ = (selector) => document.querySelector(selector);
@@ -1903,7 +1903,7 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
       setText('#tokenColumnHeading', `Количество ${token} по выбранному курсу`);
       setText('#rateLabel', `Курс подтяжки · ${currency} за 1 ${token}`);
       setText('#rateHelp', market === 'RU'
-        ? 'Фиксированный курс ERUB — 15,8 RUB за 1 ERUB. Не изменяется автоматически.'
+        ? 'Введите актуальный курс ERUB вручную перед расчётом.'
         : `Курс ECR фиксированный — ${defaultSettings[market].rate} ${currency} за 1 ECR. Он устанавливается автоматически и доступен только для просмотра.`);
 
       setText('#outAmount', amount > 0 && Number.isFinite(amount) ? `${fmt(amount)} ${currency}` : '—');
@@ -1915,7 +1915,7 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
       if (!chosen) {
         setText('#status', `Минимальная сумма для расчёта — ${fmt(tiers[0][0], 0)} ${currency}.`);
       } else if (!(Number.isFinite(rate) && rate > 0)) {
-        setText('#status', `Используется автоматически установленный курс ${token} для выбранной площадки.`);
+        setText('#status', market === 'RU' ? 'Введите актуальный курс ERUB вручную для выполнения расчёта.' : `Используется автоматически установленный курс ${token} для выбранной площадки.`);
       } else {
         setText('#status', `Применён коэффициент ×${fmt(multiplier, 1)}. Сумма после полной подтяжки = взнос × коэффициент. Количество ${token} для подтяжки = (сумма после подтяжки − взнос) ÷ курс ${token}. После годового периода расчётная сумма распределяется на 50 еженедельных выплат по 1/50.`);
       }
@@ -1973,22 +1973,30 @@ html[data-theme="dark"] .hero .theme-toggle{border-color:#40586a!important;backg
     }
 
     $('#amount').addEventListener('change', render);
-    $('#rate').addEventListener('input', () => syncMarketSettings(false));
+    $('#rate').addEventListener('input', render);
 
     function syncMarketSettings(resetAmount = true) {
       const market = getMarket();
       const settings = defaultSettings[market] || defaultSettings.EU;
       const isRussia = market === 'RU';
-      $('#rate').value = settings.rate;
-      $('#rate').readOnly = true;
-      $('#rate').setAttribute('readonly', '');
-      $('#rate').setAttribute('inputmode', 'none');
-      $('#rate').setAttribute('aria-readonly', 'true');
+      if (isRussia) {
+        $('#rate').value = '';
+        $('#rate').readOnly = false;
+        $('#rate').removeAttribute('readonly');
+        $('#rate').removeAttribute('inputmode');
+        $('#rate').removeAttribute('aria-readonly');
+      } else {
+        $('#rate').value = settings.rate;
+        $('#rate').readOnly = true;
+        $('#rate').setAttribute('readonly', '');
+        $('#rate').setAttribute('inputmode', 'none');
+        $('#rate').setAttribute('aria-readonly', 'true');
+      }
       $('#rate').setAttribute('aria-label', isRussia
-        ? 'Автоматический курс ERUB в российских рублях'
+        ? 'Введите курс ERUB вручную в российских рублях'
         : 'Курс токена в валюте выбранной площадки');
       $('#rateHelp').textContent = isRussia
-        ? 'Фиксированный курс ERUB — 15,8 RUB за 1 ERUB. Не изменяется автоматически.'
+        ? 'Введите актуальный курс ERUB вручную перед расчётом.'
         : `Курс ECR фиксированный — ${settings.rate} ${settings.currency} за 1 ECR. Он устанавливается автоматически и недоступен для ручного изменения.`;
       if (resetAmount) populateAmounts(settings.amount);
       render();

@@ -1685,7 +1685,7 @@ html[data-theme="dark"] .min-warning{color:#ff7777}
     <li><strong>Выберите площадку.</strong> Укажите нужный рынок — валюта и тарифная таблица загрузятся автоматически.</li>
     <li><strong>Выберите тип потока.</strong> Fast Flow (FF) работает по модели 30 дней и 30 начислений; Super Fast Flow (SFF) — 15 дней и 15 начислений. Для каждого типа используется своя тарифная таблица.</li>
     <li><strong>Укажите номинал потока.</strong> Выберите сумму в валюте площадки. При переключении FF/SFF учитывайте минимальный порог выбранного типа; тариф подбирается по соответствующей таблице.</li>
-    <li><strong>Проверьте курс подтяжки.</strong> Он устанавливается автоматически и доступен только для просмотра. Для России установлен фиксированный курс ERUB — 15,8 RUB; для остальных площадок используется фиксированный курс ECR.</li>
+    <li><strong>Проверьте курс подтяжки.</strong> Для России введите актуальный курс ERUB вручную; для остальных площадок курс ECR устанавливается автоматически.</li>
     <li><strong>Изучите результат.</strong> В результате отображаются тариф, номинал, результат, сумма с результатом, ежедневная премия и количество ECR/ERUB для подтяжки.</li>
     <li><strong>Скопируйте расчёт.</strong> Нажмите «Скопировать расчёт», чтобы сохранить или отправить параметры расчёта.</li>
   </ol>
@@ -1696,7 +1696,7 @@ html[data-theme="dark"] .min-warning{color:#ff7777}
 <script>
 const configs={
 EU:{name:'EUR',rate:25,FF:[[250,3.5],[500,3.6],[1000,3.7],[1500,3.8],[2000,3.9],[3000,4],[4000,4.1],[5000,4.2],[6000,4.3],[7000,4.4],[8000,4.5],[9000,4.6],[10000,4.7],[25000,4.8],[50000,4.9],[100000,5]],SFF:[[500,2],[1000,2.1],[2000,2.2],[3000,2.3],[4000,2.4],[5000,2.5],[6000,2.6],[7000,2.7],[8000,2.8],[9000,2.9],[10000,3],[25000,3.1],[50000,3.2],[100000,3.3]]},
-UK:{name:'GBP',rate:25,FF:[[250,3.5],[500,3.6],[1000,3.7],[1500,3.8],[2000,3.9],[3000,4],[4000,4.1],[5000,4.2],[6000,4.3],[7000,4.4],[8000,4.5],[9000,4.6],[10000,4.7],[25000,4.8],[50000,4.9],[100000,5]],SFF:[[500,2],[1000,2.1],[2000,2.2],[3000,2.3],[4000,2.4],[5000,2.5],[6000,2.6],[7000,2.7],[8000,2.8],[9000,2.9],[10000,3],[25000,3.1],[50000,3.2],[100000,3.3]]},ES:{name:'EUR',rate:25,FF:[[250,3.5],[500,3.6],[1000,3.7],[1500,3.8],[2000,3.9],[3000,4],[4000,4.1],[5000,4.2],[6000,4.3],[7000,4.4],[8000,4.5],[9000,4.6],[10000,4.7],[25000,4.8],[50000,4.9],[100000,5]],SFF:[[500,2],[1000,2.1],[2000,2.2],[3000,2.3],[4000,2.4],[5000,2.5],[6000,2.6],[7000,2.7],[8000,2.8],[9000,2.9],[10000,3],[25000,3.1],[50000,3.2],[100000,3.3]]},RU:{name:'RUB',rate:15.8,FF:[[25000,3.5],[50000,3.6],[100000,3.7],[150000,3.8],[200000,3.9],[300000,4],[400000,4.1],[500000,4.2],[600000,4.3],[700000,4.4],[800000,4.5],[900000,4.6],[1000000,4.7],[2500000,4.8],[5000000,4.9],[10000000,5]],SFF:[[50000,2],[100000,2.1],[200000,2.2],[300000,2.3],[400000,2.4],[500000,2.5],[600000,2.6],[700000,2.7],[800000,2.8],[900000,2.9],[1000000,3],[2500000,3.1],[5000000,3.2],[10000000,3.3]]},PL:{name:'PLN',rate:100,FF:[[1000,3.5],[2000,3.6],[4000,3.7],[6000,3.8],[8000,3.9],[12000,4],[16000,4.1],[20000,4.2],[24000,4.3],[28000,4.4],[32000,4.5],[36000,4.6],[40000,4.7],[100000,4.8],[200000,4.9],[400000,5]],SFF:[[2000,2],[4000,2.1],[8000,2.2],[12000,2.3],[16000,2.4],[20000,2.5],[24000,2.6],[28000,2.7],[32000,2.8],[36000,2.9],[40000,3],[100000,3.1],[200000,3.2],[400000,3.3]]},
+UK:{name:'GBP',rate:25,FF:[[250,3.5],[500,3.6],[1000,3.7],[1500,3.8],[2000,3.9],[3000,4],[4000,4.1],[5000,4.2],[6000,4.3],[7000,4.4],[8000,4.5],[9000,4.6],[10000,4.7],[25000,4.8],[50000,4.9],[100000,5]],SFF:[[500,2],[1000,2.1],[2000,2.2],[3000,2.3],[4000,2.4],[5000,2.5],[6000,2.6],[7000,2.7],[8000,2.8],[9000,2.9],[10000,3],[25000,3.1],[50000,3.2],[100000,3.3]]},ES:{name:'EUR',rate:25,FF:[[250,3.5],[500,3.6],[1000,3.7],[1500,3.8],[2000,3.9],[3000,4],[4000,4.1],[5000,4.2],[6000,4.3],[7000,4.4],[8000,4.5],[9000,4.6],[10000,4.7],[25000,4.8],[50000,4.9],[100000,5]],SFF:[[500,2],[1000,2.1],[2000,2.2],[3000,2.3],[4000,2.4],[5000,2.5],[6000,2.6],[7000,2.7],[8000,2.8],[9000,2.9],[10000,3],[25000,3.1],[50000,3.2],[100000,3.3]]},RU:{name:'RUB',rate:'',FF:[[25000,3.5],[50000,3.6],[100000,3.7],[150000,3.8],[200000,3.9],[300000,4],[400000,4.1],[500000,4.2],[600000,4.3],[700000,4.4],[800000,4.5],[900000,4.6],[1000000,4.7],[2500000,4.8],[5000000,4.9],[10000000,5]],SFF:[[50000,2],[100000,2.1],[200000,2.2],[300000,2.3],[400000,2.4],[500000,2.5],[600000,2.6],[700000,2.7],[800000,2.8],[900000,2.9],[1000000,3],[2500000,3.1],[5000000,3.2],[10000000,3.3]]},PL:{name:'PLN',rate:100,FF:[[1000,3.5],[2000,3.6],[4000,3.7],[6000,3.8],[8000,3.9],[12000,4],[16000,4.1],[20000,4.2],[24000,4.3],[28000,4.4],[32000,4.5],[36000,4.6],[40000,4.7],[100000,4.8],[200000,4.9],[400000,5]],SFF:[[2000,2],[4000,2.1],[8000,2.2],[12000,2.3],[16000,2.4],[20000,2.5],[24000,2.6],[28000,2.7],[32000,2.8],[36000,2.9],[40000,3],[100000,3.1],[200000,3.2],[400000,3.3]]},
 CN:{name:'CNY',rate:180,FF:[[2000,3.5],[4000,3.6],[8000,3.7],[12000,3.8],[16000,3.9],[24000,4],[32000,4.1],[40000,4.2],[48000,4.3],[56000,4.4],[64000,4.5],[72000,4.6],[80000,4.7],[200000,4.8],[400000,4.9],[800000,5]],SFF:[[4000,2],[8000,2.1],[16000,2.2],[24000,2.3],[32000,2.4],[40000,2.5],[48000,2.6],[56000,2.7],[64000,2.8],[72000,2.9],[80000,3],[200000,3.1],[400000,3.2],[800000,3.3]]},
 KG:{name:'KGS',rate:2500,FF:[[25000,3.5],[50000,3.6],[100000,3.7],[150000,3.8],[200000,3.9],[300000,4],[400000,4.1],[500000,4.2],[600000,4.3],[700000,4.4],[800000,4.5],[900000,4.6],[1000000,4.7],[2500000,4.8],[5000000,4.9],[10000000,5]],SFF:[[50000,2],[100000,2.1],[200000,2.2],[300000,2.3],[400000,2.4],[500000,2.5],[600000,2.6],[700000,2.7],[800000,2.8],[900000,2.9],[1000000,3],[2500000,3.1],[5000000,3.2],[10000000,3.3]]}
 };
@@ -1719,7 +1719,7 @@ function render(){
  document.querySelector('#rateLabel').textContent=`1 ${market==='RU'?'ERUB':'ECR'} = ${fmt(r)} ${c.name}`;
   document.querySelector('#rateTitle').textContent=`Курс ${token}`;
   document.querySelector('#rateInputLabel').textContent=`Курс подтяжки · ${c.name} за 1 ${token}`;
-  document.querySelector('#rateHint').textContent=`Подтяжка ${token} рассчитывается по результату потока и автоматически установленному курсу. Поле курса доступно только для просмотра.`;
+  document.querySelector('#rateHint').textContent=market==='RU'?'Введите актуальный курс ERUB вручную перед расчётом.':`Курс ECR устанавливается автоматически и доступен только для просмотра.`;
  document.querySelector('#pct').textContent=pct===null?'Нет тарифа':`+${fmt(pct,1)}%`;
  document.querySelector('#threshold').textContent=chosen?`Порог тарифа: ${chosen[0].toLocaleString('ru-RU')} ${c.name}`:'Сумма ниже минимального тарифа';
  document.querySelector('#principal').textContent=safeAmount>0?`${fmt(safeAmount)} ${c.name}`:'—';
@@ -1811,7 +1811,7 @@ if (platformSelect) {
       '<strong>Выберите площадку.</strong> Укажите нужный рынок — валюта и тарифная таблица загрузятся автоматически.',
       '<strong>Проверьте тип потока.</strong> Fast Flow (FF) рассчитан на 30 дней и 30 начислений.',
       '<strong>Введите номинал потока.</strong> Укажите сумму в валюте выбранной площадки. Процент подбирается по таблице Fast Flow.',
-      '<strong>Курс подтяжки.</strong> Курс установлен автоматически и недоступен для ручного изменения. Для всех площадок, кроме России, он фиксированный. В России установлен фиксированный курс ERUB — 15,8 RUB.',
+      '<strong>Курс подтяжки.</strong> Для России введите актуальный курс ERUB вручную. На остальных площадках курс подтяжки устанавливается автоматически.',
       '<strong>Изучите результат.</strong> Проверьте тариф, номинал, результат, сумму с результатом, ежедневную премию и количество ECR/ERUB для подтяжки.',
       '<strong>Скопируйте расчёт.</strong> Нажмите «Скопировать расчёт», чтобы сохранить или отправить параметры расчёта.'
     ],
@@ -1819,7 +1819,7 @@ if (platformSelect) {
       '<strong>Выберите площадку.</strong> Укажите нужный рынок — валюта и тарифная таблица загрузятся автоматически.',
       '<strong>Проверьте тип потока.</strong> Super Fast Flow (SFF) рассчитан на 15 дней и 15 начислений.',
       '<strong>Введите номинал потока.</strong> Укажите сумму в валюте выбранной площадки. Учитывайте минимальный порог в таблице Super Fast Flow.',
-      '<strong>Курс подтяжки.</strong> Курс установлен автоматически и недоступен для ручного изменения. Для всех площадок, кроме России, он фиксированный. В России установлен фиксированный курс ERUB — 15,8 RUB.',
+      '<strong>Курс подтяжки.</strong> Для России введите актуальный курс ERUB вручную. На остальных площадках курс подтяжки устанавливается автоматически.',
       '<strong>Изучите результат.</strong> Проверьте тариф SFF, номинал, результат, сумму с результатом, ежедневную премию и количество ECR/ERUB для подтяжки.',
       '<strong>Скопируйте расчёт.</strong> Нажмите «Скопировать расчёт», чтобы сохранить или отправить параметры расчёта.'
     ]
@@ -1868,43 +1868,38 @@ if (platformSelect) {
  if(btn)btn.addEventListener('click',()=>{theme=theme==='light'?'dark':'light';try{localStorage.setItem('cashflow-ff-sff-theme',theme)}catch(e){}apply()});apply();
 })();
 
-/* Fixed Russian ERUB rate: 15.8 RUB per ERUB. */
+/* Russia ERUB rate is entered manually; other platforms remain fixed. */
 (function(){
   const rateInput=document.getElementById('rate'),marketSelect=document.getElementById('platformSelect');
- function updateRate(){if(!rateInput)return;const selectedMarket=marketSelect?marketSelect.value:'EU';const isRU=selectedMarket==='RU';const config=configs[selectedMarket]||configs.EU;rateInput.readOnly=true;rateInput.setAttribute('readonly','');rateInput.setAttribute('aria-readonly','true');rateInput.setAttribute('inputmode','none');rateInput.value=isRU?'15.8':String(config.rate);if(isRU){rateInputLabel.textContent='Курс подтяжки · RUB за 1 ERUB';rateHint.textContent='Фиксированный курс ERUB: 15,8 RUB за 1 ERUB. Не изменяется автоматически.'}else{rateInputLabel.textContent=`Курс подтяжки · ${config.name} за 1 ECR`;rateHint.textContent=`Фиксированный курс ECR: ${config.rate} ${config.name} за 1 ECR. Устанавливается автоматически и доступен только для просмотра.`}render();}
- const rateInputLabel=document.getElementById('rateInputLabel'),rateHint=document.getElementById('rateHint');
- if(marketSelect){marketSelect.addEventListener('change',updateRate);}
- document.querySelectorAll('#platformProxyButtons .platform').forEach(b=>b.addEventListener('click',()=>setTimeout(updateRate,0)));
- updateRate();
-})();
-
-</script>
-
-<script id="cashflow-force-ecr-readonly">
-(() => {
-  const lockRate = () => {
-    const field = document.getElementById('rate');
-    if (!field) return;
-    if (!field.readOnly) field.readOnly = true;
-    if (!field.hasAttribute('readonly')) field.setAttribute('readonly', '');
-    if (field.getAttribute('aria-readonly') !== 'true') field.setAttribute('aria-readonly', 'true');
-    if (field.getAttribute('inputmode') !== 'none') field.setAttribute('inputmode', 'none');
-  };
-  lockRate();
-  document.addEventListener('DOMContentLoaded', lockRate, { once: true });
-  const field = document.getElementById('rate');
-  if (field) {
-    field.addEventListener('focus', lockRate);
-    field.addEventListener('keydown', event => {
-      if (['ArrowUp','ArrowDown','PageUp','PageDown'].includes(event.key)) event.preventDefault();
-    });
-    field.addEventListener('beforeinput', event => event.preventDefault());
-    field.addEventListener('paste', event => event.preventDefault());
-    field.addEventListener('drop', event => event.preventDefault());
+  const rateInputLabel=document.getElementById('rateInputLabel'),rateHint=document.getElementById('rateHint');
+  let previousMarket=marketSelect?marketSelect.value:'EU';
+  function updateRate(){
+    if(!rateInput)return;
+    const selectedMarket=market||'EU';
+    const isRU=selectedMarket==='RU';
+    const config=configs[selectedMarket]||configs.EU;
+    if(isRU){
+      rateInput.readOnly=false;rateInput.removeAttribute('readonly');rateInput.removeAttribute('aria-readonly');rateInput.removeAttribute('inputmode');
+      if(previousMarket!=='RU') rateInput.value='';
+      rateInputLabel.textContent='Курс подтяжки · RUB за 1 ERUB';
+      rateHint.textContent='Введите актуальный курс ERUB вручную перед расчётом.';
+    }else{
+      rateInput.readOnly=true;rateInput.setAttribute('readonly','');rateInput.setAttribute('aria-readonly','true');rateInput.setAttribute('inputmode','none');
+      rateInput.value=String(config.rate);
+      rateInputLabel.textContent=`Курс подтяжки · ${config.name} за 1 ECR`;
+      rateHint.textContent=`Фиксированный курс ECR: ${config.rate} ${config.name} за 1 ECR. Устанавливается автоматически и доступен только для просмотра.`;
+    }
+    previousMarket=selectedMarket;
+    render();
   }
-  const observer = new MutationObserver(lockRate);
-  observer.observe(document.documentElement, {subtree:true, attributes:true, attributeFilter:['readonly']});
+  if(marketSelect)marketSelect.addEventListener('change',updateRate);
+  document.querySelectorAll('#platformProxyButtons .platform').forEach(b=>b.addEventListener('click',()=>setTimeout(updateRate,0)));
+  rateInput.addEventListener('input',render);
+  updateRate();
 })();
+
 </script>
+
+
 
 </body></html>
