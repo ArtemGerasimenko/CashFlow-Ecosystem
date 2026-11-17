@@ -1,7 +1,7 @@
 {
   "id": "./",
   "name": "CashFlow Ecosystem",
-  "short_name": "CashFlow",
+  "short_name": "CashFlow Ecosystem",
   "description": "Цифровая экосистема CashFlow: симуляторы потоков и калькуляторы.",
   "lang": "ru",
   "start_url": "./index.html",
