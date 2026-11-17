@@ -1,9 +1,9 @@
-const CACHE_NAME = "cashflow-ecosystem-v2";
+const CACHE_NAME = "cashflow-ecosystem-v4";
 const APP_FILES = [
   "./", "./index.html", "./fast-flow-super-fast-flow.html",
   "./growing-flow.html", "./vip-fast-flow.html", "./year-flow.html",
   "./cumulative-flow.html", "./withdrawal-calculator.html",
-  "./manifest.webmanifest", "./assets/icon-192.png", "./assets/icon-512.png"
+  "./manifest.webmanifest", "./assets/icon.svg", "./assets/icon-192.png", "./assets/icon-512.png"
 ];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)).then(() => self.skipWaiting()));
