@@ -2,8 +2,6 @@
 
 <html lang="ru">
 <head>
-<meta name="apple-mobile-web-app-title" content="CashFlow Ecosystem"/>
-<meta name="application-name" content="CashFlow Ecosystem"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#06142c" name="theme-color"/>
@@ -476,6 +474,8 @@ h1{font-size:clamp(1.55rem,3.5vw,3.5rem);line-height:1.08;letter-spacing:-.04em}
 
 </style>
 <link href="manifest.webmanifest" rel="manifest"/>
+<link href="assets/icon-192.png" rel="icon" type="image/png" sizes="192x192"/>
+<link href="assets/icon-192.png" rel="apple-touch-icon"/> 
 <meta content="#eaf1f8" name="theme-color"/>
 <style>
 /* ECR Wallet card — unified CashFlow style with the wallet's red brand accent */
@@ -578,6 +578,23 @@ table { max-width:100%; }
 }
 </style>
 
+
+<style id="cashflow-fund-platforms">
+/* CASHFLOW FUND platform directory */
+.fund-platforms{width:100%;margin:clamp(14px,2.2vh,22px) 0 0;padding:16px;border:1.5px solid #d6a13c;border-radius:20px;background:radial-gradient(ellipse at 50% 0,rgba(255,190,60,.10),transparent 58%),linear-gradient(135deg,#0a2345,#061831 70%,#07152b);box-shadow:0 0 12px #e3a72c44,inset 0 1px 0 #ffffff20}
+.fund-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.fund-card{--brand:#16a7ff;min-width:0;display:grid;grid-template-columns:58px minmax(0,1fr);align-items:center;gap:10px;padding:11px;border:1px solid color-mix(in srgb,var(--brand) 72%,#fff 8%);border-radius:15px;background:linear-gradient(155deg,#102d52,#081a34 75%);color:inherit;text-decoration:none;box-shadow:inset 0 1px 0 #ffffff18;transition:filter .18s,transform .18s}
+.fund-card:hover{filter:brightness(1.13);transform:translateY(-1px)}
+.fund-card:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.fund-flag{display:grid;place-items:center;width:58px;height:58px;border-radius:12px;background:#050d1d;border:1px solid color-mix(in srgb,var(--brand) 70%,white 10%);font-size:2rem}
+.fund-copy{min-width:0}
+.fund-copy h3{margin:0;color:#f5f8ff;font-size:clamp(.88rem,1.5vw,1.08rem);font-weight:900;line-height:1.2}
+.fund-copy p{margin:4px 0 7px;color:#b3cbed;font-size:.7rem;line-height:1.25}
+.fund-link{display:flex;align-items:center;justify-content:center;min-height:34px;padding:6px 9px;border:1px solid color-mix(in srgb,var(--brand) 75%,white 8%);border-radius:999px;background:color-mix(in srgb,var(--brand) 18%,#06152b);color:#eaf4ff;font-size:.63rem;font-weight:900;letter-spacing:.02em;text-align:center}
+.fund-card.vip{--brand:#ffc34d}.fund-card.china{--brand:#e74c55}.fund-card.russia{--brand:#70a8ff}.fund-card.europe{--brand:#d6a13c}.fund-card.poland{--brand:#f2a2b5}.fund-card.spain{--brand:#f0a23b}.fund-card.britain{--brand:#9b9bff}.fund-card.kyrgyzstan{--brand:#e45b5b}
+@media(max-width:600px){.fund-platforms{margin-top:12px;padding:10px;border-radius:15px}.fund-grid{grid-template-columns:1fr;gap:8px}.fund-card{grid-template-columns:52px minmax(0,1fr);gap:9px;padding:9px;border-radius:13px}.fund-flag{width:52px;height:52px;font-size:1.8rem}.fund-copy h3{font-size:.88rem}.fund-copy p{font-size:.65rem;margin:3px 0 6px}.fund-link{min-height:32px;font-size:.62rem}}
+</style>
+
 </head>
 <body>
 <main>
@@ -614,6 +631,18 @@ table { max-width:100%; }
 <span aria-hidden="true" class="arrow">›</span>
 </a>
 </section>
+<section aria-label="Платформы CASHFLOW FUND" class="fund-platforms">
+<div class="ecr-heading"><h2>ПЛАТФОРМЫ <span>CASHFLOW FUND</span></h2><p>Выберите региональную площадку и перейдите к регистрации</p></div>
+<div class="fund-grid">
+<a class="fund-card vip" href="https://vip.cashflow.fund/ref/tWoDqaqq" target="_blank" rel="noopener noreferrer"><span class="fund-flag" aria-hidden="true">⭐</span><span class="fund-copy"><h3>VIP</h3><p>Платформа VIP</p><span class="fund-link">ПЕРЕЙТИ К РЕГИСТРАЦИИ ↗</span></span></a>
+<a class="fund-card china" href="https://duo6duo8.com/ref/NP0Dqaqq" target="_blank" rel="noopener noreferrer"><span class="fund-flag" aria-hidden="true">🇨🇳</span><span class="fund-copy"><h3>Китай</h3><p>Региональная платформа Китая</p><span class="fund-link">ПЕРЕЙТИ К РЕГИСТРАЦИИ ↗</span></span></a>
+<a class="fund-card russia" href="https://potok.cash/ref/dskDqaqq" target="_blank" rel="noopener noreferrer"><span class="fund-flag" aria-hidden="true">🇷🇺</span><span class="fund-copy"><h3>Россия</h3><p>Региональная платформа России</p><span class="fund-link">ПЕРЕЙТИ К РЕГИСТРАЦИИ ↗</span></span></a>
+<a class="fund-card europe" href="https://eur.cashflow.fund/ref/9_gDqaqq" target="_blank" rel="noopener noreferrer"><span class="fund-flag" aria-hidden="true">🇪🇺</span><span class="fund-copy"><h3>Европа</h3><p>Региональная платформа Европы</p><span class="fund-link">ПЕРЕЙТИ К РЕГИСТРАЦИИ ↗</span></span></a>
+<a class="fund-card poland" href="https://pl.cashflow.fund/ref/tPoDqaqq" target="_blank" rel="noopener noreferrer"><span class="fund-flag" aria-hidden="true">🇵🇱</span><span class="fund-copy"><h3>Польша</h3><p>Региональная платформа Польши</p><span class="fund-link">ПЕРЕЙТИ К РЕГИСТРАЦИИ ↗</span></span></a>
+<a class="fund-card spain" href="https://es.cashflow.fund/ref/9F0Dqaqq" target="_blank" rel="noopener noreferrer"><span class="fund-flag" aria-hidden="true">🇪🇸</span><span class="fund-copy"><h3>Испания</h3><p>Региональная платформа Испании</p><span class="fund-link">ПЕРЕЙТИ К РЕГИСТРАЦИИ ↗</span></span></a>
+<a class="fund-card britain" href="https://gb.cashflow.fund/ref/N60Dqaqq" target="_blank" rel="noopener noreferrer"><span class="fund-flag" aria-hidden="true">🇬🇧</span><span class="fund-copy"><h3>Британия</h3><p>Региональная платформа Британии</p><span class="fund-link">ПЕРЕЙТИ К РЕГИСТРАЦИИ ↗</span></span></a>
+<a class="fund-card kyrgyzstan" href="https://kg.cashflow.fund/ref/NPgDqaqq" target="_blank" rel="noopener noreferrer"><span class="fund-flag" aria-hidden="true">🇰🇬</span><span class="fund-copy"><h3>Кыргызстан</h3><p>Региональная платформа Кыргызстана</p><span class="fund-link">ПЕРЕЙТИ К РЕГИСТРАЦИИ ↗</span></span></a>
+</div></section>
 <section aria-label="Инструмент расчёта вывода ECR" class="ecr-platforms">
 <div class="ecr-heading">
 <h2>РАСЧЁТ <span>ВЫВОДА СРЕДСТВ</span></h2>
@@ -712,5 +741,110 @@ table { max-width:100%; }
 <p class="telegram-footer">CASHFLOW • TELEGRAM COMMUNITY</p>
 </section></main>
 <script>if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {})); }</script>
+
+<style id="cashflow-referral-warning-styles">
+.referral-modal{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,7,20,.82);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.referral-modal.is-open{display:flex}
+.referral-dialog{width:min(100%,520px);max-height:min(90vh,760px);overflow:auto;padding:clamp(18px,4vw,28px);border:1.5px solid #d6a13c;border-radius:22px;background:radial-gradient(ellipse at 50% 0,rgba(255,190,60,.12),transparent 55%),linear-gradient(145deg,#102d52,#061831 78%);box-shadow:0 18px 65px #000b,0 0 24px #d6a13c33;color:#f3f7ff}
+.referral-dialog h2{margin:0 0 10px;text-align:center;color:#ffc34d;font-size:clamp(1.1rem,4vw,1.45rem);font-weight:950;line-height:1.2}
+.referral-dialog .referral-warning{margin:0 0 16px;color:#c5d8ef;font-size:.92rem;line-height:1.5;text-align:center}
+.referral-dialog .referral-warning strong{color:#fff}
+.referral-options{display:grid;gap:9px;margin:16px 0}
+.referral-option{display:flex;align-items:flex-start;gap:11px;width:100%;padding:13px;border:1px solid #3978a8;border-radius:13px;background:#071d39;color:#edf6ff;text-align:left;font:inherit;cursor:pointer;transition:border-color .18s,background .18s,transform .18s}
+.referral-option:hover{border-color:#ffc34d;transform:translateY(-1px)}
+.referral-option[aria-pressed="true"]{border-color:#ffc34d;background:linear-gradient(100deg,#5b421633,#12345a);box-shadow:inset 0 0 0 1px #ffc34d55}
+.referral-option .choice-mark{flex:0 0 22px;width:22px;height:22px;display:grid;place-items:center;border:1.5px solid #7da5cb;border-radius:50%;font-size:.8rem;margin-top:1px}
+.referral-option[aria-pressed="true"] .choice-mark{border-color:#ffc34d;background:#ffc34d;color:#07172d;font-weight:900}
+.referral-option span:last-child{font-weight:800;line-height:1.35}
+.referral-feedback{display:none;margin:12px 0;padding:12px;border-radius:12px;background:#7b2b2b33;border:1px solid #e17b7b;color:#ffdada;font-size:.85rem;line-height:1.45}
+.referral-feedback.show{display:block}
+.referral-actions{display:flex;gap:9px;margin-top:16px}
+.referral-actions button,.referral-actions a{box-sizing:border-box;flex:1 1 0;min-width:0;min-height:48px;padding:10px 12px;border-radius:999px;font:inherit;font-size:clamp(.72rem,2.5vw,.82rem);font-weight:900;line-height:1.2;text-align:center;white-space:normal;cursor:pointer}
+.referral-continue{border:1px solid #ffc34d;background:linear-gradient(100deg,#c58a22,#8a5b12);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 3px 10px rgba(0,0,0,.18);transition:filter .18s ease,transform .18s ease}
+.referral-continue:hover{filter:brightness(1.1)}
+.referral-continue:active{transform:translateY(1px)}
+.referral-continue:disabled{opacity:.42;cursor:not-allowed;filter:grayscale(.5)}
+.referral-cancel{border:1px solid #5980a8;background:#102b4b;color:#e6f1ff}
+@media(max-width:420px){.referral-dialog{border-radius:17px}.referral-option{padding:11px;font-size:.88rem}.referral-actions{flex-direction:column-reverse}}
+</style>
+<div class="referral-modal" id="cashflowReferralModal" role="dialog" aria-modal="true" aria-labelledby="referralModalTitle" aria-describedby="referralModalDescription">
+ <div class="referral-dialog" role="document">
+  <h2 id="referralModalTitle">⚠️ ВАЖНО! РЕФЕРАЛЬНАЯ ССЫЛКА</h2>
+  <p class="referral-warning" id="referralModalDescription">Ссылка для регистрации является <strong>реферальной ссылкой автора проекта — Артёма Герасименко</strong>.<br><br>Если вы уже состоите в структуре, пожалуйста, возьмите реферальную ссылку у своего пригласителя или лидера вашей структуры.</p>
+  <div class="referral-options" role="group" aria-label="Выберите вашу ситуацию">
+   <button type="button" class="referral-option" data-choice="inviter" aria-pressed="false"><span class="choice-mark">✓</span><span>У меня есть пригласитель</span></button>
+   <button type="button" class="referral-option" data-choice="newbie" aria-pressed="false"><span class="choice-mark">✓</span><span>У меня нет пригласителя, я новичок</span></button>
+   <button type="button" class="referral-option" data-choice="author" aria-pressed="false"><span class="choice-mark">✓</span><span>Мой пригласитель — Артём Герасименко</span></button>
+  </div>
+  <div class="referral-feedback" id="referralFeedback" role="status" aria-live="polite"></div>
+  <div class="referral-actions">
+   <button type="button" class="referral-cancel" id="referralCancel">Отмена</button>
+   <button type="button" class="referral-continue" id="referralContinue" disabled>Продолжить</button>
+  </div>
+ </div>
+</div>
+<script id="cashflow-referral-warning-script">
+(()=>{
+ const modal=document.getElementById('cashflowReferralModal');
+ if(!modal)return;
+ const options=[...modal.querySelectorAll('.referral-option')];
+ const continueBtn=modal.querySelector('#referralContinue');
+ const cancelBtn=modal.querySelector('#referralCancel');
+ const feedback=modal.querySelector('#referralFeedback');
+ let pendingUrl='',selected='';
+ function showContactPrompt(destination){
+  let prompt=document.getElementById('cashflowContactPrompt');
+  if(!prompt){
+   prompt=document.createElement('div');
+   prompt.id='cashflowContactPrompt';
+   prompt.className='referral-modal is-open';
+   prompt.setAttribute('role','dialog');
+   prompt.setAttribute('aria-modal','true');
+   prompt.innerHTML='<div class="referral-dialog" role="document"><h2>🤝 СВЯЖИТЕСЬ С АРТЁМОМ</h2><p class="referral-warning">Чтобы получить помощь с регистрацией и подключением к CashFlow, пожалуйста, свяжитесь со мной в личном Telegram.</p><div class="referral-actions"><button type="button" class="referral-cancel" id="cashflowContactClose">Закрыть</button><a class="referral-continue" id="cashflowContactTelegram" href="https://t.me/ArtLiveChatMercury" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;text-decoration:none">Связаться с Артёмом</a></div></div>';
+   document.body.appendChild(prompt);
+   prompt.querySelector('#cashflowContactClose').addEventListener('click',()=>prompt.classList.remove('is-open'));
+   prompt.addEventListener('click',e=>{if(e.target===prompt)prompt.classList.remove('is-open');});
+  }
+  prompt.classList.add('is-open');
+ }
+ function close(){modal.classList.remove('is-open');pendingUrl='';selected='';options.forEach(b=>b.setAttribute('aria-pressed','false'));continueBtn.disabled=true;feedback.classList.remove('show');feedback.textContent='';}
+ function open(url){pendingUrl=url;selected='';options.forEach(b=>b.setAttribute('aria-pressed','false'));continueBtn.disabled=true;feedback.classList.remove('show');feedback.textContent='';modal.classList.add('is-open');cancelBtn.focus();}
+ document.addEventListener('click',e=>{
+  const link=e.target.closest('a[href]');
+  if(!link)return;
+  const label=(link.innerText||link.textContent||'').replace(/\s+/g,' ').trim().toLocaleUpperCase('ru');
+  if(!label.includes('ПЕРЕЙТИ К РЕГИСТРАЦИИ'))return;
+  e.preventDefault();e.stopPropagation();open(link.href);
+ },true);
+ options.forEach(btn=>btn.addEventListener('click',()=>{
+  selected=btn.dataset.choice;
+  options.forEach(item=>item.setAttribute('aria-pressed',String(item===btn)));
+  if(selected==='inviter'){
+   continueBtn.disabled=false;
+   continueBtn.textContent='Закрыть окно';
+   feedback.textContent='Вы вернётесь на страницу CashFlow Ecosystem. Переход по реферальной ссылке не выполняется.';
+   feedback.classList.add('show');
+  }else{
+   feedback.classList.remove('show');feedback.textContent='';
+   continueBtn.disabled=false;
+   continueBtn.textContent='Продолжить';
+  }
+ }));
+ continueBtn.addEventListener('click',()=>{
+  if(!pendingUrl||!['author','newbie','inviter'].includes(selected))return;
+  if(selected==='inviter'){
+   close();
+   return;
+  }
+  const destination=pendingUrl;
+  close();
+  showContactPrompt(destination);
+ });
+ cancelBtn.addEventListener('click',close);
+ modal.addEventListener('click',e=>{if(e.target===modal)close();});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('is-open'))close();});
+})();
+</script>
+
 </body>
 </html>
